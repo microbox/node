@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.5
 MAINTAINER Ling <e2tox@microbox.io>
 ENV NODE_VERSION=6.9.2
 
