@@ -1,9 +1,0 @@
-FROM alpine:edge
-MAINTAINER Ling <x@e2.to>
-ENV NODE_VERSION=6.10.0
-
-RUN apk upgrade --update && \
-    apk add --update nodejs=${NODE_VERSION}-r0 ca-certificates && \
-    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg /usr/bin/npm /usr/lib/node_modules
-
-# EOF
