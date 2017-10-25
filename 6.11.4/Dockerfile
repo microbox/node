@@ -1,6 +1,6 @@
-FROM alpine:3.5
+FROM alpine:edge
 MAINTAINER Ling <x@e2.to>
-ENV NODE_VERSION=6.9.2
+ENV NODE_VERSION=6.11.4
 
 RUN apk upgrade --update && \
     apk add --update nodejs=${NODE_VERSION}-r0 ca-certificates && \

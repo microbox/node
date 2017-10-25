@@ -1,5 +1,5 @@
 FROM alpine:edge
-MAINTAINER Ling <e2tox@microbox.io>
+MAINTAINER Ling <x@e2.to>
 ENV NODE_VERSION=6.11.1
 
 RUN apk upgrade --update && \

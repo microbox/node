@@ -1,5 +1,5 @@
 FROM alpine:edge
-MAINTAINER Ling <e2tox@microbox.io>
+MAINTAINER Ling <x@e2.to>
 
 # ENV VERSION=v0.10.48 CFLAGS="-D__USE_MISC" NPM_VERSION=2
 # ENV VERSION=v0.12.17
