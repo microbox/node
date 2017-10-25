@@ -11,8 +11,7 @@ notifications:
 script:
   - export REPO=$TRAVIS_REPO_SLUG
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build -t $REPO:$TRAVIS_COMMIT .
-  - docker tag $REPO:$TRAVIS_COMMIT $REPO:$TAG
+  - docker build -t $REPO:$TAG .
   - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
