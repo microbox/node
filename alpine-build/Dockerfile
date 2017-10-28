@@ -1,25 +1,22 @@
-FROM alpine:edge
+FROM alpine:3.6
 MAINTAINER Ling <x@e2.to>
-ENV NODE_VERSION=8.8.1
-
-RUN apk add --no-cache --update nodejs-npm=${NODE_VERSION}-r0 ca-certificates bash tar zip git docker python make g++ && \
-    npm i -g yarn && \
-    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg
-
-ENV DOCKER_HOST=tcp://docker:2375 \
-
-# EOF
+ARG NODE_VERSION
+ENV NODE_VERSION=${NODE_VERSION}
 
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \
-    && apk add --no-cache ca-certificates bash tar zip git docker python make g++ curl wget \
+    && apk add --no-cache \
+        libstdc++ \
     && apk add --no-cache --virtual .build-deps \
         binutils-gold \
+        curl \
+        g++ \
         gcc \
         gnupg \
         libgcc \
-        libstdc++ \
         linux-headers \
+        make \
+        python \
   # gpg keys listed at https://github.com/nodejs/node#release-team
   && for key in \
     94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
@@ -40,7 +37,7 @@ RUN addgroup -g 1000 node \
     && grep " node-v$NODE_VERSION.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
     && tar -xf "node-v$NODE_VERSION.tar.xz" \
     && cd "node-v$NODE_VERSION" \
-    && ./configure --prefix=/usr \
+    && ./configure \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install \
     && apk del .build-deps \

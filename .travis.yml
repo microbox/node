@@ -9,9 +9,18 @@ notifications:
     on_failure: change
 
 script:
+  - export TITLE=$(curl 'https://nodejs.org/dist/latest/docs/api/' -so - | grep -iPo '(?<=<title>)(.*)(?=</title>)')
+  - echo $TITLE
+  - export NODE_VERSION=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo $TITLE; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
+  - export CID=$(docker create node-alpine-build)
+  - mkdir -p alpine/usr/bin
+  - docker cp $CID:/usr/bin/node alpine/usr/bin
+
+after_success:
   - export REPO=$TRAVIS_REPO_SLUG
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - docker build -t $REPO:$TAG .
+  - docker build -t $REPO:$TAG debian
   - docker images
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker push $REPO
