@@ -9,9 +9,9 @@ notifications:
     on_failure: change
 
 script:
-  - export TITLE=$(curl 'https://nodejs.org/dist/latest/docs/api/' -so - | grep -iPo '(?<=<title>)(.*)(?=</title>)')
-  - echo $TITLE
-  - export NODE_VERSION=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo $TITLE; else echo $TRAVIS_BRANCH ; fi`
+  - export LATEST_VERSION=$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
+  - echo $LATEST_VERSION
+  - export NODE_VERSION=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo $LATEST_VERSION; else echo $TRAVIS_BRANCH ; fi`
   - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
   - export CID=$(docker create node-alpine-build)
   - mkdir -p alpine/usr/bin
