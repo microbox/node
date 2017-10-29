@@ -3,8 +3,7 @@ MAINTAINER Ling <x@e2.to>
 ARG NODE_VERSION
 ENV NODE_VERSION=${NODE_VERSION}
 
-RUN adduser -u 1000 -g node -s /bin/sh -D node \
-    && apk add --no-cache \
+RUN apk add --no-cache \
         libstdc++ \
     && apk add --no-cache --virtual .build-deps \
         binutils-gold \
