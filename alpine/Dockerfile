@@ -2,7 +2,7 @@ FROM alpine:edge
 MAINTAINER Ling <x@e2.to>
 ARG NODE_VERSION
 ENV NODE_VERSION=${NODE_VERSION}
-ADD usr/bin/node /usr/bin
+ADD usr/bin/node /usr/bin/node
 RUN apk add --no-cache --update ca-certificates libstdc++ && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg /usr/bin/npm /usr/lib/node_modules
 
