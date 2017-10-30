@@ -35,8 +35,17 @@ RUN apk add --no-cache \
     && grep " node-v$NODE_VERSION.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
     && tar -xf "node-v$NODE_VERSION.tar.xz" \
     && cd "node-v$NODE_VERSION" \
-    && ./configure \
+    && rm -rf deps/http_parser deps/openssl deps/uv deps/zlib
+    && ./configure --shared-zlib \
+                   --shared-libuv \
+                   --shared-openssl \
+                   --shared-http-parser \
+                   --shared-cares \
+                   --openssl-use-def-ca-store \
+    && make -C out mksnapshot BUILDTYPE=Release
+    && paxmark -m out/Release/mksnapshot
     && make -j$(getconf _NPROCESSORS_ONLN) \
+    && paxmark -m out/Release/node
     && make install \
     && apk del .build-deps \
     && cd .. \
