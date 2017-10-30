@@ -3,7 +3,8 @@ MAINTAINER Ling <x@e2.to>
 ARG NODE_VERSION
 ENV NODE_VERSION=${NODE_VERSION}
 
-
+RUN mkdir /patchs
+ADD patchs /patchs
 
 RUN apk add --no-cache \
         libstdc++ \
