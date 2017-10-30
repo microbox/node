@@ -17,7 +17,6 @@ RUN apk add --no-cache \
         http-parser-dev \
         curl \
         g++ \
-        git \
         gcc \
         gnupg \
         libgcc \
@@ -44,7 +43,6 @@ RUN apk add --no-cache \
     && grep " node-v$NODE_VERSION.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
     && tar -xf "node-v$NODE_VERSION.tar.xz" \
     && cd "node-v$NODE_VERSION" \
-    && git apply --ignore-space-change --ignore-whitespace ../patchs/$NODE_VERSION.patch \
     && ./configure --no-cross-compiling \
                    --openssl-use-def-ca-store \
                    --shared-zlib \
