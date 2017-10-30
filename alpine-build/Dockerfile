@@ -3,10 +3,17 @@ MAINTAINER Ling <x@e2.to>
 ARG NODE_VERSION
 ENV NODE_VERSION=${NODE_VERSION}
 
+
+
 RUN apk add --no-cache \
         libstdc++ \
     && apk add --no-cache --virtual .build-deps \
         binutils-gold \
+        zlib-dev \
+        libuv-dev \
+        openssl-dev \
+        c-ares-dev \
+        http-parser-dev \
         curl \
         g++ \
         git \
