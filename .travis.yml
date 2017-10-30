@@ -14,8 +14,8 @@ script:
   - export NODE_VERSION=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo $LATEST_VERSION; else echo $TRAVIS_BRANCH ; fi`
   - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
   - export CID=$(docker create node-alpine-build)
-  - mkdir -p alpine/usr/local/bin
-  - docker cp $CID:/node-v$NODE_VERSION/out/Release/node alpine/usr/local/bin
+  - mkdir -p alpine/usr/bin
+  - docker cp $CID:/node-v$NODE_VERSION/out/Release/node alpine/usr/bin
 
 after_success:
   - export REPO=$TRAVIS_REPO_SLUG
