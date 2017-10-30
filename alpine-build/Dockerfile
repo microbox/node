@@ -45,15 +45,13 @@ RUN apk add --no-cache \
     && tar -xf "node-v$NODE_VERSION.tar.xz" \
     && cd "node-v$NODE_VERSION" \
     && git apply --ignore-space-change --ignore-whitespace ../patchs/$NODE_VERSION.patch \
-    && ./configure --shared-openssl \
+    && ./configure --no-cross-compiling \
                    --openssl-use-def-ca-store \
                    --shared-zlib \
                    --shared-cares \
                    --shared-http-parser \
                    --shared-libuv \
-                   --without-dtrace \
-                   --without-etw \
-                   --dest-os=linux \
+                   --shared-openssl \
     && make -C out mksnapshot BUILDTYPE=Release \
     && paxmark -m out/Release/mksnapshot \
     && make \
