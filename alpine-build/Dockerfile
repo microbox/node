@@ -52,8 +52,4 @@ RUN apk add --no-cache \
                    --shared-http-parser \
                    --shared-libuv \
                    --shared-openssl \
-    && make -C out mksnapshot BUILDTYPE=Release \
-    && paxmark -m out/Release/mksnapshot \
-    && make \
-    && paxmark -m out/Release/node \
     && make -j$(getconf _NPROCESSORS_ONLN)
