@@ -47,12 +47,4 @@ RUN apk add --no-cache \
                    --without-dtrace \
                    --without-etw \
                    --dest-os=linux \
-    && make -C out mksnapshot BUILDTYPE=Release \
-    && paxmark -m out/Release/mksnapshot \
-    && make -j$(getconf _NPROCESSORS_ONLN) \
-    && paxmark -m out/Release/node \
-    && make install \
-    && apk del .build-deps \
-    && cd .. \
-    && rm -Rf "node-v$NODE_VERSION" \
-    && rm "node-v$NODE_VERSION.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
+    && make -j$(getconf _NPROCESSORS_ONLN)

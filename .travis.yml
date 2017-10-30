@@ -15,7 +15,7 @@ script:
   - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
   - export CID=$(docker create node-alpine-build)
   - mkdir -p alpine/usr/local/bin
-  - docker cp $CID:/usr/local/bin/node alpine/usr/local/bin
+  - docker cp $CID:/node-v$NODE_VERSION/out/Release/node alpine/usr/local/bin
 
 after_success:
   - export REPO=$TRAVIS_REPO_SLUG
