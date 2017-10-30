@@ -45,8 +45,7 @@ RUN apk add --no-cache \
     && tar -xf "node-v$NODE_VERSION.tar.xz" \
     && cd "node-v$NODE_VERSION" \
     && git apply --ignore-space-change --ignore-whitespace ../patchs/$NODE_VERSION.patch \
-    && ./configure --without-snapshot \
-                   --shared-openssl \
+    && ./configure --shared-openssl \
                    --openssl-use-def-ca-store \
                    --shared-zlib \
                    --shared-cares \
@@ -55,4 +54,8 @@ RUN apk add --no-cache \
                    --without-dtrace \
                    --without-etw \
                    --dest-os=linux \
+    && make -C out mksnapshot BUILDTYPE=Release \
+    && paxmark -m out/Release/mksnapshot \
+    && make \
+    && paxmark -m out/Release/node \
     && make -j$(getconf _NPROCESSORS_ONLN)
