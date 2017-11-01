@@ -2,4 +2,4 @@ FROM alpine:edge
 MAINTAINER Ling <x@e2.to>
 ARG NODE_VERSION=8.9.0
 ENV NODE_VERSION=${NODE_VERSION}
-RUN apk add --update nodejs=${NODE_VERSION}-r0
+RUN apk add --update nodejs>=${NODE_VERSION}
