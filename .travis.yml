@@ -8,14 +8,23 @@ notifications:
     on_success: never
     on_failure: change
 
-script:
+install:
   - export LATEST_VERSION=$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
   - echo $LATEST_VERSION
   - export NODE_VERSION=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo $LATEST_VERSION; else echo $TRAVIS_BRANCH ; fi`
-  - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
-  - export CID=$(docker create node-alpine-build)
+  - echo $NODE_VERSION
+
+#script:
+#  - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
+#  - export CID=$(docker create node-alpine-build)
+#  - mkdir -p alpine/usr/bin
+#  - docker cp $CID:/node-v$NODE_VERSION/out/Release/node alpine/usr/bin
+
+script:
+  - docker build -t node-alpine-prebuild --build-arg NODE_VERSION=$NODE_VERSION alpine-prebuild
+  - export CID=$(docker create node-alpine-prebuild)
   - mkdir -p alpine/usr/bin
-  - docker cp $CID:/node-v$NODE_VERSION/out/Release/node alpine/usr/bin
+  - docker cp $CID:/usr/bin/node alpine/usr/bin
 
 after_success:
   - export REPO=$TRAVIS_REPO_SLUG
