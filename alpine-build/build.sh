@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-NODE_VERSION=8.11.1
+NODE_VERSION=8.12.0
 
 apk add --no-cache \
         libstdc++ \
