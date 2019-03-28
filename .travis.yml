@@ -20,16 +20,18 @@ install:
 #  - mkdir -p alpine/usr/bin
 #  - docker cp $CID:/node-v$NODE_VERSION/out/Release/node alpine/usr/bin
 
-script:
-  - docker build -t node-alpine-prebuild --build-arg NODE_VERSION=$NODE_VERSION alpine-prebuild
-  - export CID=$(docker create node-alpine-prebuild)
-  - mkdir -p alpine/usr/bin
-  - docker cp $CID:/usr/bin/node alpine/usr/bin
+#script:
+#  - docker build -t node-alpine-prebuild --build-arg NODE_VERSION=$NODE_VERSION alpine-prebuild
+#  - export CID=$(docker create node-alpine-prebuild)
+#  - mkdir -p alpine/usr/bin
+#  - docker cp $CID:/usr/bin/node alpine/usr/bin
 
-after_success:
+script:
   - export REPO=$TRAVIS_REPO_SLUG
   - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - docker build -t $REPO:$TAG alpine
+
+after_success:
   - docker images
   - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
   - docker push $REPO
