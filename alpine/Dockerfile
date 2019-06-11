@@ -5,8 +5,7 @@ ENV NODE_VERSION=${NODE_VERSION}
 
 # for local compile node binary
 ADD usr/bin/node /usr/bin/node
-#RUN apk add --no-cache --update c-ares ca-certificates http-parser libcrypto1.1 libgcc libssl1.1 libstdc++ libuv musl zlib && \
-RUN apk add --no-cache --update ca-certificates libcrypto1.1 libgcc libssl1.1 libstdc++ libuv musl zlib && \
+RUN apk add --no-cache --update c-ares ca-certificates http-parser libcrypto1.1 libgcc libssl1.1 libstdc++ libuv musl zlib && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg /usr/bin/npm /usr/lib/node_modules
 
 # for pre compiled node binary
