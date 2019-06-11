@@ -18,9 +18,10 @@ RUN apk add --no-cache \
         libgcc \
         linux-headers \
         make \
-        python \
-  # gpg keys listed at https://github.com/nodejs/node#release-team
-  && for key in \
+        python
+
+# gpg keys listed at https://github.com/nodejs/node#release-team
+RUN for key in \
     94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
     FD3A5288F042B6850C66B31F09FE44734EB7990E \
     71DCFD284A79C3B38668286BC97EC7A07EDE3FC1 \
@@ -43,6 +44,7 @@ RUN apk add --no-cache \
     && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
     && grep " node-v$NODE_VERSION.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
     && tar -xf "node-v$NODE_VERSION.tar.xz"
+
 RUN cd "node-v$NODE_VERSION" \
     && ./configure --no-cross-compiling \
                    --openssl-use-def-ca-store \
@@ -51,4 +53,5 @@ RUN cd "node-v$NODE_VERSION" \
                    --shared-http-parser \
                    --shared-libuv \
                    --shared-openssl
+
 RUN make -j$(getconf _NPROCESSORS_ONLN)
