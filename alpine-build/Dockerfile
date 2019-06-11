@@ -54,8 +54,7 @@ RUN tar -xf "node-v$NODE_VERSION.tar.xz"
 #                   --shared-libuv \
 #                   --shared-openssl
 
-RUN cd "node-v$NODE_VERSION"
-RUN ./configure --no-cross-compiling \
-                --openssl-use-def-ca-store
-
-RUN make -j$(getconf _NPROCESSORS_ONLN) V=
+RUN cd "node-v$NODE_VERSION" \
+    && ./configure --no-cross-compiling \
+                   --openssl-use-def-ca-store \
+    && make -j$(getconf _NPROCESSORS_ONLN) V=
