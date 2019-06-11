@@ -52,5 +52,5 @@ RUN cd "node-v$NODE_VERSION" \
                    --shared-cares \
                    --shared-http-parser \
                    --shared-libuv \
-                   --shared-openssl
+                   --shared-openssl \
     && make -j$(getconf _NPROCESSORS_ONLN) V=
