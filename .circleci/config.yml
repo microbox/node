@@ -6,10 +6,6 @@ jobs:
 
     working_directory: ~/node
 
-    branches:
-      only:
-        - master
-
     steps:
       - checkout
       - setup_remote_docker
