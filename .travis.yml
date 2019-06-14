@@ -17,11 +17,11 @@ install:
   - echo $NODE_VERSION
 
 script:
-  # build from source
-  - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
-  - export CID=$(docker create node-alpine-build)
-  - mkdir -p alpine/usr/bin
-  - docker cp $CID:/node-v$NODE_VERSION/out/Release/node alpine/usr/bin
+# build from source
+#  - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
+#  - export CID=$(docker create node-alpine-build)
+#  - mkdir -p alpine/usr/bin
+#  - docker cp $CID:/node-v$NODE_VERSION/out/Release/node alpine/usr/bin
 
   # build from prebuild
   #  - docker build -t node-alpine-prebuild --build-arg NODE_VERSION=$NODE_VERSION alpine-prebuild
@@ -32,7 +32,11 @@ script:
   - export REPO=$TRAVIS_REPO_SLUG
   #  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
   - export TAG=$NODE_VERSION
-  - docker build -t $REPO:$TAG -t $REPO:8 alpine
+  - docker pull microbox/node:$NODE_VERSION || echo 'image not found'
+  - if [[ "$(docker images -q microbox/node:$NODE_VERSION 2> /dev/null)" == "" ]]; then \
+    docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION . \
+    fi
+#  - docker build -t $REPO:latest alpine
 
 after_success:
   - docker images
