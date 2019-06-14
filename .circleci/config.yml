@@ -29,11 +29,13 @@ jobs:
           name: Build application Docker image
           command: |
             source $BASH_ENV
+            echo 'Build docker with '.$NODE_VERSION
             docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
 
       - deploy:
           name: Push Docker image
           command: |
             source $BASH_ENV
-            echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
-            docker push microbox/node:${NODE_VERSION}
+            echo 'Pushing docker image '.$NODE_VERSION
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker push microbox/node:$NODE_VERSION
