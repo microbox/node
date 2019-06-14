@@ -30,12 +30,9 @@ jobs:
           command: |
             source $BASH_ENV
             echo 'Build docker with ' $NODE_VERSION
-            docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
-
-      - deploy:
-          name: Push Docker image
-          command: |
-            source $BASH_ENV
-            echo 'Pushing docker image '$NODE_VERSION
-            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            docker push microbox/node:$NODE_VERSION
+            docker pull microbox/node:$NODE_VERSION
+            if [[ "$(docker images -q microbox/node:$NODE_VERSION 2> /dev/null)" == "" ]]; then
+              docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
+              echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+              docker push microbox/node:$NODE_VERSION
+            fi
