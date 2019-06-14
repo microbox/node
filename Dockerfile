@@ -55,7 +55,7 @@ RUN cd "node-v$NODE_VERSION" \
                    --shared-http-parser \
                    --shared-libuv \
                    --shared-openssl \
-    && make -j2 V=
+    && make -j2
 
 FROM alpine:edge
 
