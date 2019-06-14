@@ -19,7 +19,8 @@ jobs:
           command: |
             apk update && apk add ca-certificates && update-ca-certificates && apk add openssl
             export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
-            echo 'export NODE_VERSION=${NODE_VERSION}' >> $BASH_ENV
+            echo 'export NODE_VERSION=$NODE_VERSION'
+            echo 'export NODE_VERSION=$NODE_VERSION' >> $BASH_ENV
             source $BASH_ENV
 
       - run:
@@ -32,5 +33,5 @@ jobs:
           name: Push Docker image
           command: |
             source $BASH_ENV
-            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-            docker push microbox/node:$NODE_VERSION
+            echo ${DOCKER_PASS} | docker login -u ${DOCKER_USER} --password-stdin
+            docker push microbox/node:${NODE_VERSION}
