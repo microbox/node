@@ -27,7 +27,7 @@ script:
   #  - export CID=$(docker create node-alpine-prebuild)
   #  - mkdir -p alpine/usr/bin
   #  - docker cp $CID:/usr/bin/node alpine/usr/bin
-  - export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v8.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
+  - export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
   - echo $NODE_VERSION
   - export REPO=$TRAVIS_REPO_SLUG
   #  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
