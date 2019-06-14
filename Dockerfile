@@ -36,17 +36,16 @@
 #    gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$key" || \
 #    gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys "$key" ; \
 #  done
+# RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" \
+#    && curl -SLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
+#    && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
+#    && grep " node-v$NODE_VERSION.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
+#    && tar -xf "node-v$NODE_VERSION.tar.xz"
 
 ARG NODE_VERSION
 FROM microbox/node-source:${NODE_VERSION} AS builder
 ARG NODE_VERSION
 ENV NODE_VERSION=${NODE_VERSION}
-
-RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" \
-    && curl -SLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-    && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
-    && grep " node-v$NODE_VERSION.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
-    && tar -xf "node-v$NODE_VERSION.tar.xz"
 
 RUN cd "node-v$NODE_VERSION" \
     && ./configure --no-cross-compiling \
