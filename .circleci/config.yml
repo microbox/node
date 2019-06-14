@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker:17.05.0-ce-git
+
+    working_directory: ~/node
+
+    branches:
+      only:
+        - master
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Get Latest Node Version
+          command: |
+            export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
+            echo 'export NODE_VERSION=${NODE_VERSION}' >> $BASH_ENV
+            source $BASH_ENV
+
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
+
+      - deploy:
+          name: Push Docker image
+          command: |
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker push microbox/node:$NODE_VERSION
