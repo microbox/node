@@ -52,7 +52,6 @@ RUN cd "node-v$NODE_VERSION" \
                    --openssl-use-def-ca-store \
                    --shared-zlib \
                    --shared-cares \
-                   --shared-http-parser \
                    --shared-libuv \
                    --shared-openssl \
     && make -j2
@@ -67,7 +66,7 @@ ENV NODE_VERSION=${NODE_VERSION}
 COPY --from=builder /node-v$NODE_VERSION/out/Release/node /usr/bin/node
 
 #
-RUN apk add --no-cache --update c-ares ca-certificates http-parser libcrypto1.1 libgcc libssl1.1 libstdc++ libuv musl zlib && \
+RUN apk add --no-cache --update c-ares ca-certificates libcrypto1.1 libgcc libssl1.1 libstdc++ libuv musl zlib && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg /usr/bin/npm /usr/lib/node_modules
 
 # for pre compiled node binary
