@@ -21,9 +21,8 @@ jobs:
             export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
             echo $NODE_VERSION
             echo ${NODE_VERSION}
-            echo 'export NODE_VERSION=$NODE_VERSION'
-            echo 'export NODE_VERSION=${NODE_VERSION}'
-            echo 'export NODE_VERSION=$NODE_VERSION' >> $BASH_ENV
+            echo 'export NODE_VERSION='.$NODE_VERSION
+            echo 'export NODE_VERSION='.$NODE_VERSION >> $BASH_ENV
             source $BASH_ENV
 
       - run:
