@@ -29,6 +29,6 @@ jobs:
             docker pull microbox/node:$NODE_VERSION || echo 'image not found'
             if [[ "$(docker images -q microbox/node:$NODE_VERSION 2> /dev/null)" == "" ]]; then
               docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
-              echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
               docker push microbox/node:$NODE_VERSION
             fi
