@@ -57,8 +57,7 @@ RUN cd "node-v$NODE_VERSION" \
     && cd out/Release \
     && ./node_mksnapshot --startup-blob=snapshot_blob.bin
 
-RUN apk add upx \
-    && upx /node-v$NODE_VERSION/out/Release/node
+RUN apk add upx && upx /node-v$NODE_VERSION/out/Release/node
 
 FROM alpine:edge
 
@@ -70,6 +69,8 @@ RUN apk add --no-cache --update libgcc libstdc++ && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/*
 
 # for local compile node binary
+COPY --from=builder /node-v$NODE_VERSION/out/Release/natives_blob.bin /usr/bin/natives_blob.bin
+COPY --from=builder /node-v$NODE_VERSION/out/Release/snapshot_blob.bin /usr/bin/snapshot_blob.bin
 COPY --from=builder /node-v$NODE_VERSION/out/Release/node /usr/bin/node
 
 #RUN apk add --no-cache --update ca-certificates && \
