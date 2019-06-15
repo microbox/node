@@ -55,7 +55,9 @@ RUN cd "node-v$NODE_VERSION" \
                    --with-node-snapshot \
     && make -j2 \
     && cd out/Release \
-    && ./node_mksnapshot snapshot_blob.bin
+    && ./node_mksnapshot snapshot_blob.bin \
+    && cp /node-v$NODE_VERSION/out/Release/snapshot_blob.bin /usr/bin/snapshot_blob.bin \
+    && cp /node-v$NODE_VERSION/out/Release/node /usr/bin/node
 
 # toooooooooo slow
 #RUN apk add upx && upx /node-v$NODE_VERSION/out/Release/node
@@ -70,8 +72,8 @@ RUN apk add --no-cache --update libgcc libstdc++ && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/*
 
 # for local compile node binary
-COPY --from=builder /node-v$NODE_VERSION/out/Release/snapshot_blob.bin /usr/bin/snapshot_blob.bin
-COPY --from=builder /node-v$NODE_VERSION/out/Release/node /usr/bin/node
+COPY --from=builder /usr/bin/snapshot_blob.bin /usr/bin
+COPY --from=builder /usr/bin/node /usr/bin
 
 #RUN apk add --no-cache --update ca-certificates && \
 #    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg /usr/bin/npm /usr/lib/node_modules
