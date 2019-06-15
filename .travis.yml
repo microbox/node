@@ -20,7 +20,6 @@ install:
     export BRANCH=8
     export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v$BRANCH.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
 
-
 script:
 # build from source
 #  - docker build -t node-alpine-build --build-arg NODE_VERSION=$NODE_VERSION alpine-build
@@ -33,12 +32,12 @@ script:
   #  - mkdir -p alpine/usr/bin
   #  - docker cp $CID:/usr/bin/node alpine/usr/bin
   #  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  #  - docker build -t $REPO:latest alpine
+  #  - docker build -t $REPO: latest alpine
   - |
     echo "Current version: $REPO:$NODE_VERSION"
     docker pull $REPO:$NODE_VERSION || echo 'image not found'
     if [[ "$(docker images -q $REPO:$NODE_VERSION 2> /dev/null)" == "" ]]; then
-      curl -X POST --header "Content-Type: application/json" -d "{}" https://circleci.com/api/v1.1/project/gh/microbox/node/tree/$BRANCH?circle-token=907565f9d37e10a88dda4901e72ba88d372d1618
+      curl -X POST --header "Content-Type: application/json" -d "{}" https://circleci.com/api/v1.1/project/gh/$REPO/tree/$BRANCH?circle-token=907565f9d37e10a88dda4901e72ba88d372d1618
       docker build -t $REPO:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
     fi
     docker tag $REPO:$NODE_VERSION $REPO:$BRANCH
