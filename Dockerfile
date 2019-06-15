@@ -51,12 +51,9 @@ RUN cd "node-v$NODE_VERSION" \
     && ./configure --no-cross-compiling \
                    --openssl-use-def-ca-store \
                    --shared-zlib \
-                   --shared-openssl \
-                   --with-node-snapshot \
+                   --shared-openssl
     && make -j2 \
     && cd out/Release \
-    && ./node_mksnapshot snapshot_blob.bin \
-    && cp /node-v$NODE_VERSION/out/Release/snapshot_blob.bin /usr/bin/snapshot_blob.bin \
     && cp /node-v$NODE_VERSION/out/Release/node /usr/bin/node
 
 # toooooooooo slow
@@ -72,7 +69,6 @@ RUN apk add --no-cache --update libgcc libstdc++ && \
     rm -rf /usr/share/man /tmp/* /var/cache/apk/*
 
 # for local compile node binary
-COPY --from=builder /usr/bin/snapshot_blob.bin /usr/bin
 COPY --from=builder /usr/bin/node /usr/bin
 
 #RUN apk add --no-cache --update ca-certificates && \
