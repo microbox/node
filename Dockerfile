@@ -66,6 +66,9 @@ MAINTAINER Ling <x@e2.to>
 ARG NODE_VERSION
 ENV NODE_VERSION=${NODE_VERSION}
 
+RUN apk add --no-cache --update libgcc libstdc++ && \
+    rm -rf /usr/share/man /tmp/* /var/cache/apk/*
+
 # for local compile node binary
 COPY --from=builder /node-v$NODE_VERSION/out/Release/node /usr/bin/node
 
