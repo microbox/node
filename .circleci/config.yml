@@ -15,20 +15,21 @@ jobs:
           command: |
             apk update && apk add ca-certificates && update-ca-certificates && apk add openssl
             export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v12.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
-            echo $NODE_VERSION
-            echo ${NODE_VERSION}
-            echo 'export NODE_VERSION='$NODE_VERSION
             echo 'export NODE_VERSION='$NODE_VERSION >> $BASH_ENV
+            echo 'export REPO=microbox/node' >> $BASH_ENV
             source $BASH_ENV
 
       - run:
           name: Build application Docker image
           command: |
             source $BASH_ENV
-            echo 'Build docker with ' $NODE_VERSION
-            docker pull microbox/node:$NODE_VERSION || echo 'image not found'
-            if [[ "$(docker images -q microbox/node:$NODE_VERSION 2> /dev/null)" == "" ]]; then
-              docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
-              docker login -u $DOCKER_USER -p $DOCKER_PASS
-              docker push microbox/node:$NODE_VERSION
+            echo "Current version: ".$REPO.":".$NODE_VERSION
+            docker pull $REPO:$NODE_VERSION || echo 'image not found'
+            if [[ "$(docker images -q $REPO:$NODE_VERSION 2> /dev/null)" == "" ]]; then
+              docker build -t $REPO:$NODE_VERSION --buildbuild-arg NODE_VERSION=$NODE_VERSION .
             fi
+            docker tag $REPO:$NODE_VERSION $REPO:12
+            docker tag $REPO:$NODE_VERSION $REPO:latest
+            docker images
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push $REPO

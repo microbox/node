@@ -14,6 +14,11 @@ notifications:
   #  - export NODE_VERSION=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo $LATEST_VERSION; else echo $TRAVIS_BRANCH ; fi`
   #  - echo $NODE_VERSION
 
+install:
+  - |
+    export REPO=$TRAVIS_REPO_SLUG
+    export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v12.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
+    echo 'NODE_VERSION='$NODE_VERSION
 
 script:
 # build from source
@@ -27,21 +32,19 @@ script:
   #  - export CID=$(docker create node-alpine-prebuild)
   #  - mkdir -p alpine/usr/bin
   #  - docker cp $CID:/usr/bin/node alpine/usr/bin
-  - export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v12.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
-  - echo $NODE_VERSION
-  - export REPO=$TRAVIS_REPO_SLUG
   #  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-  - export TAG=$NODE_VERSION
-  - docker pull microbox/node:$NODE_VERSION || echo 'image not found'
+  #  - docker build -t $REPO:latest alpine
   - |
-    if [[ "$(docker images -q microbox/node:$NODE_VERSION 2> /dev/null)" == "" ]]; then
-      docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
-      docker images
-      echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-      docker push $REPO
+    docker pull $REPO:$NODE_VERSION || echo 'image not found'
+    if [[ "$(docker images -q $REPO:$NODE_VERSION 2> /dev/null)" == "" ]]; then
+      docker build -t $REPO:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
     fi
-#  - docker build -t $REPO:latest alpine
-#
+    docker tag $REPO:$NODE_VERSION $REPO:12
+    docker tag $REPO:$NODE_VERSION $REPO:latest
+    docker images
+    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+    docker push $REPO
+
 #after_success:
 #  - docker images
 #  - echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
