@@ -18,7 +18,7 @@ install:
   - |
     export REPO=$TRAVIS_REPO_SLUG
     export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v12.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
-    echo 'NODE_VERSION='$NODE_VERSION
+    echo "Current version: $REPO:$NODE_VERSION"
 
 script:
 # build from source

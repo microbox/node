@@ -23,7 +23,7 @@ jobs:
           name: Build application Docker image
           command: |
             source $BASH_ENV
-            echo "Current version: ".$REPO.":".$NODE_VERSION
+            echo "Current version: $REPO:$NODE_VERSION"
             docker pull $REPO:$NODE_VERSION || echo 'image not found'
             if [[ "$(docker images -q $REPO:$NODE_VERSION 2> /dev/null)" == "" ]]; then
               docker build -t $REPO:$NODE_VERSION --buildbuild-arg NODE_VERSION=$NODE_VERSION .
