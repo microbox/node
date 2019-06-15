@@ -51,7 +51,7 @@ RUN cd "node-v$NODE_VERSION" \
     && ./configure --no-cross-compiling \
                    --openssl-use-def-ca-store \
                    --shared-zlib \
-                   --shared-openssl
+                   --shared-openssl \
     && make -j2 \
     && cd out/Release \
     && cp /node-v$NODE_VERSION/out/Release/node /usr/bin/node
