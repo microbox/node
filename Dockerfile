@@ -51,10 +51,16 @@ RUN cd "node-v$NODE_VERSION" \
     && ./configure --no-cross-compiling \
                    --openssl-use-def-ca-store \
                    --shared-zlib \
-                   --shared-cares \
-                   --shared-libuv \
                    --shared-openssl \
-    && make -j2
+                   --with-node-snapshot \
+    && make -j2 \
+    && cd out/Release \
+    && ./node_mksnapshot snapshot_blob.bin \
+    && cp /node-v$NODE_VERSION/out/Release/snapshot_blob.bin /usr/bin/snapshot_blob.bin \
+    && cp /node-v$NODE_VERSION/out/Release/node /usr/bin/node
+
+# toooooooooo slow
+#RUN apk add upx && upx /node-v$NODE_VERSION/out/Release/node
 
 FROM alpine:edge
 
@@ -62,12 +68,15 @@ MAINTAINER Ling <x@e2.to>
 ARG NODE_VERSION
 ENV NODE_VERSION=${NODE_VERSION}
 
-# for local compile node binary
-COPY --from=builder /node-v$NODE_VERSION/out/Release/node /usr/bin/node
+RUN apk add --no-cache --update libgcc libstdc++ && \
+    rm -rf /usr/share/man /tmp/* /var/cache/apk/*
 
-#
-RUN apk add --no-cache --update c-ares ca-certificates libcrypto1.1 libgcc libssl1.1 libstdc++ libuv musl zlib && \
-    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg /usr/bin/npm /usr/lib/node_modules
+# for local compile node binary
+COPY --from=builder /usr/bin/snapshot_blob.bin /usr/bin
+COPY --from=builder /usr/bin/node /usr/bin
+
+#RUN apk add --no-cache --update ca-certificates && \
+#    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp /root/.gnupg /usr/bin/npm /usr/lib/node_modules
 
 # for pre compiled node binary
 #RUN apk add --no-cache --update nodejs>=${NODE_VERSION} && \
