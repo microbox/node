@@ -15,7 +15,7 @@ jobs:
           command: |
             apk update && apk add ca-certificates && update-ca-certificates && apk add openssl
             export REPO=$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
-            export BRANCH=8
+            export BRANCH=10
             export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v$BRANCH.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
             echo "export REPO=$REPO" >> $BASH_ENV
             echo "export NODE_VERSION=$NODE_VERSION" >> $BASH_ENV
