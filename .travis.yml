@@ -34,11 +34,11 @@ script:
   - export TAG=$NODE_VERSION
   - docker pull microbox/node:$NODE_VERSION || echo 'image not found'
   - |
-    if [[ "$(docker images -q microbox/node:$NODE_VERSION 2> /dev/null)" == "" ]]; then
-      docker build -t microbox/node:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
+    if [[ "$(docker images -q $REPO:$NODE_VERSION 2> /dev/null)" == "" ]]; then
+      docker build -t $REPO:latest --build-arg NODE_VERSION=$NODE_VERSION .
       docker images
       echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-      docker push $REPO
+      docker push $REPO:latest
     fi
 #  - docker build -t $REPO:latest alpine
 #
