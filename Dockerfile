@@ -50,13 +50,17 @@ ENV NODE_VERSION=${NODE_VERSION}
 RUN cd "node-v$NODE_VERSION" \
     && ./configure --no-cross-compiling \
                    --openssl-use-def-ca-store \
-    && make -j2
+                   --shared-zlib \
+                   --shared-openssl \
+                   --with-node-snapshot \
+    && make -j2 \
+    && cd out/Release \
+    && ./node_mksnapshot --startup-blob=snapshot_blob.bin
 
 RUN apk add upx \
     && upx /node-v$NODE_VERSION/out/Release/node
 
-#FROM alpine:edge
-FROM scratch
+FROM alpine:edge
 
 MAINTAINER Ling <x@e2.to>
 ARG NODE_VERSION
