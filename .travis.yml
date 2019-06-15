@@ -17,8 +17,9 @@ notifications:
 install:
   - |
     export REPO=$TRAVIS_REPO_SLUG
-    export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v12.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
-    export BRANCH=12
+    export BRANCH=10
+    export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v$BRANCH.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
+
 
 script:
 # build from source
