@@ -37,6 +37,7 @@ script:
   - |
     docker pull $REPO:$NODE_VERSION || echo 'image not found'
     if [[ "$(docker images -q $REPO:$NODE_VERSION 2> /dev/null)" == "" ]]; then
+      curl -X POST --header "Content-Type: application/json" -d "{}" https://circleci.com/api/v1.1/project/gh/microbox/node/tree/v12?circle-token=907565f9d37e10a88dda4901e72ba88d372d1618
       docker build -t $REPO:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
     fi
     docker tag $REPO:$NODE_VERSION $REPO:12
