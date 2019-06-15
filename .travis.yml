@@ -17,7 +17,7 @@ notifications:
 install:
   - |
     export REPO=$TRAVIS_REPO_SLUG
-    export BRANCH=10
+    export BRANCH=8
     export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v$BRANCH.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
 
 
