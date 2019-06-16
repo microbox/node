@@ -13,7 +13,7 @@ This is an [automated build](https://hub.docker.com/r/microbox/node) for 12.x, 1
 ### Size
 
 |Name   |Version   |Size   |
-|---|---|---|---|
+|---|---|---|
 |microbox/node|8.16.0| 39.4MB |
 |microbox/node|10.16.0| 44.6MB |
 |microbox/node|12.4.0| 48.3MB |
