@@ -3,11 +3,26 @@ Node.js Minimal Image
 
 [![Build Status](https://travis-ci.org/microbox/node.svg?branch=master)](https://travis-ci.org/microbox/node)
 
-This is an automated build
+This is an [automated build](https://hub.docker.com/r/microbox/node) for 12.x, 10.x, 8.x nodejs.
 
-### Versions
+### What's inside?
 
-- microbox/node:latest
-- microbox/node:12 => nodejs 12.x
-- microbox/node:10 => nodejs 10.x
-- microbox/node:8 => nodejs 8.x
+1. Alpine Linux Edge
+2. NodeJS Binary
+
+### Size
+
+|Name   |Version   |Size   |
+|---|---|---|---|
+|microbox/node|8.16.0| 39.4MB |
+|microbox/node|10.16.0| 44.6MB |
+|microbox/node|12.4.0| 48.3MB |
+
+### Performance
+
+[Node snapshot](https://github.com/nodejs/node/issues/17058) is enabled for 12.x version. It have better performance that official nodejs alpine image.
+
+### Q&A
+
+Q: Why not compress the nodejs binary using UPX?
+A: 1. Docker will compress the image during transfer. 2. it will increase the booting speed from 30ms to 300ms. 3. You always can create your own image with compressed nodejs binary from this base image.
