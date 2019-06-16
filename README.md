@@ -20,7 +20,7 @@ This is an [automated build](https://hub.docker.com/r/microbox/node) for 12.x, 1
 
 ### Performance
 
-[Node snapshot](https://github.com/nodejs/node/issues/17058) is enabled for 12.x version. It have better performance that official nodejs alpine image.
+[Node snapshot](https://github.com/nodejs/node/issues/17058) is enabled for 12.x version. It have better performance then official nodejs alpine image.
 
 ### Q&A
 
