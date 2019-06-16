@@ -26,5 +26,5 @@ Node snapshot is enabled for 12.x version. It have better performance then offic
 
 #### Q: Why not compress the nodejs binary using UPX?
 1. Docker will compress the image during transfer. 
-2. it will increase the booting speed from 30ms to 300ms. 
+2. It will increase the booting time from 30ms to 300ms.
 3. You always can create your own image with compressed nodejs binary from this base image.
