@@ -2,11 +2,10 @@ version: 2
 jobs:
   build:
     docker:
-      - image: microbox/chromium-builder:latest
+      #- image: microbox/chromium-builder:latest
+      - image: docker:17.05.0-ce-git
 
-        #      - image: docker:17.05.0-ce-git
-
-    working_directory: /root/chromium/src
+    working_directory: /root/
 
     steps:
       - setup_remote_docker:
