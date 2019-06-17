@@ -2,7 +2,11 @@ version: 2
 jobs:
   build:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: microbox/chromium-builder:latest
+
+        #      - image: docker:17.05.0-ce-git
+
+
 
     working_directory: ~/node
 
