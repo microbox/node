@@ -6,12 +6,9 @@ jobs:
 
         #      - image: docker:17.05.0-ce-git
 
-
-
-    working_directory: ~/node
+    working_directory: /root/chromium/src
 
     steps:
-      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
 
