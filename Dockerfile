@@ -52,7 +52,6 @@ RUN cd "node-v$NODE_VERSION" \
                    --openssl-use-def-ca-store \
                    --shared-zlib \
                    --shared-openssl \
-                   --with-node-snapshot \
     && make -j2 \
     && cd out/Release \
     && ./node_mksnapshot snapshot_blob.bin \
@@ -60,7 +59,7 @@ RUN cd "node-v$NODE_VERSION" \
     && cp /node-v$NODE_VERSION/out/Release/node /usr/bin/node
 
 # toooooooooo slow
-#RUN apk add upx && upx /node-v$NODE_VERSION/out/Release/node
+# RUN apk add upx && upx /node-v$NODE_VERSION/out/Release/node
 
 FROM alpine:edge
 
