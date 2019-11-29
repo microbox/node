@@ -17,8 +17,8 @@ notifications:
 install:
   - |
     export REPO=$TRAVIS_REPO_SLUG
-    export BRANCH=12
-    export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest-v$BRANCH.x/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
+    export BRANCH=master
+    export NODE_VERSION=$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-v(.*)\.pkg</a>.*|\1|p')
 
 script:
 # build from source
@@ -40,7 +40,7 @@ script:
       curl -X POST --header "Content-Type: application/json" -d "{}" https://circleci.com/api/v1.1/project/gh/$REPO/tree/$BRANCH?circle-token=907565f9d37e10a88dda4901e72ba88d372d1618
       docker build -t $REPO:$NODE_VERSION --build-arg NODE_VERSION=$NODE_VERSION .
     fi
-    docker tag $REPO:$NODE_VERSION $REPO:$BRANCH
+    docker tag $REPO:$NODE_VERSION $REPO:latest
     docker images
     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
     docker push $REPO
